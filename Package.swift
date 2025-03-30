@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftyImageCache",
+    platforms: [.iOS(.v15), .watchOS(.v8), .tvOS(.v15), .macOS(.v12), .visionOS(.v1)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
