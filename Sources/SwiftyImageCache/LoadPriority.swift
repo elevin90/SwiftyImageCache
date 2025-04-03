@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ImageLoadPriority.swift
 //  SwiftyImageCache
 //
 //  Created by YAUHENI LEVIN on 3/29/25.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// Defines priority levels for loading images.
-enum ImageLoadPriority: Int {
+enum LoadPriority: Int {
   /// Low priority - suitable for background image loading.
   case low = 0
   /// Standard priority - the default priority for image loading.
