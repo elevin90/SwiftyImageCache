@@ -44,8 +44,8 @@ final class SwiftyImageMemoryFetcher {
   /// - Returns: Image data  if it  can be found, otherwise returns nil
   func imageData(forKey key: URL) throws -> Data? {
     let hashedKey = hashedFileKey(for: key)
-    if let cachedImageDate = memoryCache.object(forKey: hashedKey as NSURL) as? Data {
-      return cachedImageDate
+    if let cachedImageData = memoryCache.object(forKey: hashedKey as NSURL) {
+        return cachedImageData as Data
     }
     if let diskCacheImageData = try fetchFromDiskCache(from: hashedKey) {
       return diskCacheImageData
@@ -59,7 +59,7 @@ final class SwiftyImageMemoryFetcher {
   ///   - key: Given url key
   func setImageData(_ data: Data, forKey key: URL) throws {
     let hashedKey = hashedFileKey(for: key)
-    memoryCache.setObject(data as NSData, forKey: key as NSURL)
+    memoryCache.setObject(data as NSData, forKey: hashedKey as NSURL)
     do {
       if try hasSufficientDiskSpace(for: data) {
         try saveToStorage(url: hashedKey, data: data)
@@ -67,6 +67,14 @@ final class SwiftyImageMemoryFetcher {
     } catch {
       print(error)
     }
+  }
+  
+  /// Checks if there is enough disk space to store the given data.
+  /// - Parameter data: The image data to be cached.
+  /// - Returns: `true` if there is sufficient space, otherwise `false`.
+  func hasSufficientDiskSpace(for data: Data) throws -> Bool {
+    let freeSpace = try getSpaceAmount()
+    return freeSpace > Int64(data.count)
   }
 }
 
@@ -97,14 +105,6 @@ private extension SwiftyImageMemoryFetcher {
     }
     return nil
   }
-
-  /// Checks if there is enough disk space to store the given data.
-  /// - Parameter data: The image data to be cached.
-  /// - Returns: `true` if there is sufficient space, otherwise `false`.
-  func hasSufficientDiskSpace(for data: Data) throws -> Bool {
-    let freeSpace = try getSpaceAmount()
-    return freeSpace > Int64(data.count)
-  }
   
   /// Retrieves the available free space on the device.
   /// - Returns: Free space in bytes.
@@ -124,11 +124,9 @@ private extension SwiftyImageMemoryFetcher {
   /// - Returns: Returns unique hashed image url
   func hashedFileKey(for url: URL) -> URL {
     let pathWithParams = url.path + (url.query.map { "?\($0)" } ?? "")
-    // Хешируем строку пути с параметрами
     let data = Data(pathWithParams.utf8)
     let hash = SHA256.hash(data: data).compactMap { String(format: "%02x", $0) }.joined()
     
-    // Формируем новый URL с хешированным именем
     guard let baseURL = url.scheme.flatMap({ URL(string: "\($0)://\(url.host ?? "")/") }) else {
       return url
     }

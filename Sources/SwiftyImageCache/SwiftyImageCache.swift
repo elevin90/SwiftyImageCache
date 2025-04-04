@@ -42,7 +42,7 @@ actor SwiftyImageCache: SwiftyImageCaching {
   /// Loads an image from cache or downloads it if not found.
   /// - Parameters:
   ///   - url: The URL of the image to load.
-  ///   - priority: The priority for network fetching.
+  ///   - priority: The priority for network fetching in case the image data cannot be found in cache.
   /// - Returns: The image data.
   /// - Throws: `SwiftyImageCacheError` if loading fails.
   func loadImage(from url: URL, priority: LoadPriority = .standard) async throws -> Data {
