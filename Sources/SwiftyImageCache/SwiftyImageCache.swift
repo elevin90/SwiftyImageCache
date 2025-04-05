@@ -17,7 +17,7 @@ protocol SwiftyImageCaching {
   ///   - priority: The priority level for fetching the image.
   /// - Returns: The image data if successful.
   /// - Throws: `SwiftyImageCacheError` if loading fails.
-  func image(from url: URL, priority: LoadPriority) async throws -> Data
+  func provideImage(from url: URL, priority: LoadPriority) async throws -> Data
 }
 
 /// Extension for FileManager to conform to ImageFileManaging protocol
@@ -36,13 +36,13 @@ actor SwiftyImageCache: SwiftyImageCaching, ObservableObject {
   /// Private initializer to enforce singleton usage.
   private init() { }
 
-  /// Loads an image from cache or downloads it if not found.
+  /// Provides an image from cache or downloads it if not found.
   /// - Parameters:
   ///   - url: The URL of the image to load.
   ///   - priority: The priority for network fetching in case the image data cannot be found in cache.
   /// - Returns: The image data.
   /// - Throws: `SwiftyImageCacheError` if loading fails.
-  public func image(from url: URL, priority: LoadPriority = .standard) async throws -> Data {
+  public func provideImage(from url: URL, priority: LoadPriority = .standard) async throws -> Data {
     // Check memory cache
     if let cachedData = try memoryFetcher.imageData(forKey: url) {
       return cachedData

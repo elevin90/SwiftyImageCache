@@ -59,7 +59,7 @@ public struct CachedAsyncImage<Placeholder: View>: View {
   /// Loads the image from cache or network asynchronously.
   private func loadImage() async {
     do {
-      let data = try await SwiftyImageCache.shared.image(from: url, priority: priority)
+      let data = try await SwiftyImageCache.shared.provideImage(from: url, priority: priority)
       #if canImport(UIKit)
       if let uiImage = UIImage(data: data) {
         self.image = Image(uiImage: uiImage)

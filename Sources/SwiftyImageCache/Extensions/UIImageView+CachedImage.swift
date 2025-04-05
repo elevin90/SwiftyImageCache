@@ -21,7 +21,7 @@ extension UIImageView {
         self.image = placeholder
         Task {
             do {
-                let data = try await SwiftyImageCache.shared.image(from: url, priority: priority)
+              let data = try await SwiftyImageCache.shared.provideImage(from: url, priority: priority)
                 if let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self.image = image
