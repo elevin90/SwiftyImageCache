@@ -11,6 +11,7 @@ You can define a load priority (low, standard, high)
 ![Platform Support](https://img.shields.io/badge/platforms-iOS%20%7C%20watchOS%20%7C%20macOS%20%7C%20tvOS-blue)
 ![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-green)
 ![Swift](https://img.shields.io/badge/swift-5.9%2B-orange)
+![License](https://camo.githubusercontent.com/06811c704099cd92e74d5298c7e6c769371380099bd4b61c1bc41886e3842260/687474703a2f2f696d672e736869656c64732e696f2f636f636f61706f64732f6c2f5344576562496d6167652e7376673f7374796c653d666c6174)
 
 ---
 
