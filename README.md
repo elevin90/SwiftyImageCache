@@ -33,7 +33,7 @@ You can define a load priority (low, standard, high)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-username/SwiftyImageCache.git", from: "0.1.0")
+    .package(url: "https://github.com/elevin90/SwiftyImageCache", from: "0.1.0")
 ]
 ```
 
