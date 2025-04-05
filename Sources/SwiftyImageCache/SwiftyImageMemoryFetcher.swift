@@ -38,7 +38,7 @@ final class SwiftyImageMemoryFetcher {
     self.fileManager = fileManager
     self.cacheDirectoryURL = caches.appendingPathComponent("SwiftyImageCache")
   }
-  
+
   /// Retrives image data  if it  can be found
   /// - Parameter key: Key for image
   /// - Returns: Image data  if it  can be found, otherwise returns nil
@@ -52,7 +52,7 @@ final class SwiftyImageMemoryFetcher {
     }
     return nil
   }
-  
+
   /// Saves image data fir given url key
   /// - Parameters:
   ///   - data: Image binary
@@ -105,7 +105,7 @@ private extension SwiftyImageMemoryFetcher {
     }
     return nil
   }
-  
+
   /// Retrieves the available free space on the device.
   /// - Returns: Free space in bytes.
   func getSpaceAmount() throws -> Int64 {
