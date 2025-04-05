@@ -8,7 +8,7 @@
 import Foundation
 
 /// Defines priority levels for loading images.
-enum LoadPriority: Int {
+public enum LoadPriority: Int, Sendable {
   /// Low priority - suitable for background image loading.
   case low = 0
   /// Standard priority - the default priority for image loading.

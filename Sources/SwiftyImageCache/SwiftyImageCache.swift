@@ -11,31 +11,28 @@ import Foundation
 /// Conforming types should provide an implementation for loading images
 /// with a specified priority and a method to clear the cache.
 protocol SwiftyImageCaching {
-  /// Loads an image from a given URL, either from cache or by fetching it from the network.
+  /// Provides an image from a given URL, either from cache or by fetching it from the network.
   /// - Parameters:
   ///   - url: The URL of the image to load.
   ///   - priority: The priority level for fetching the image.
   /// - Returns: The image data if successful.
   /// - Throws: `SwiftyImageCacheError` if loading fails.
-  func loadImage(
-    from url: URL,
-    priority: LoadPriority
-  ) async throws -> Data
+  func image(from url: URL, priority: LoadPriority) async throws -> Data
 }
 
 /// Extension for FileManager to conform to ImageFileManaging protocol
 extension FileManager: ImageFileManaging {}
 
 /// An image caching object that stores images in both memory and disk.
-actor SwiftyImageCache: SwiftyImageCaching {
+actor SwiftyImageCache: SwiftyImageCaching, ObservableObject {
   /// Shared instance of the image cache.
   static let shared = SwiftyImageCache()
-  
+ 
   /// In-memory cache for quick access to frequently used images.
   private let memoryFetcher = SwiftyImageMemoryFetcher()
   /// Network Fetcher to load the image
   private let networkFetcher = SwiftyImageNetworkFetcher()
-  
+
   /// Private initializer to enforce singleton usage.
   private init() { }
 
@@ -45,7 +42,7 @@ actor SwiftyImageCache: SwiftyImageCaching {
   ///   - priority: The priority for network fetching in case the image data cannot be found in cache.
   /// - Returns: The image data.
   /// - Throws: `SwiftyImageCacheError` if loading fails.
-  func loadImage(from url: URL, priority: LoadPriority = .standard) async throws -> Data {
+  public func image(from url: URL, priority: LoadPriority = .standard) async throws -> Data {
     // Check memory cache
     if let cachedData = try memoryFetcher.imageData(forKey: url) {
       return cachedData
